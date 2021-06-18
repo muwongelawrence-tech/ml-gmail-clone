@@ -1,57 +1,40 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
 import './App.css';
+import Header from './common/header';
+import SideBar from './common/sideBar';
+import  {BrowserRouter ,Switch,Route, Link} from 'react-router-dom';
+import Mail from './common/mail';
+import EmailList from './common/emaillist';
+import SendMail from './common/sendMail'
+import { useSelector } from 'react-redux';
+import { selectSendMessageIsOPen} from "./features/counter/mailSlice";
+import { selectUser } from './features/counter/userSlice';
+
 
 function App() {
+     const sendMessageIsOpen = useSelector(selectSendMessageIsOPen);
+     const user = useSelector(selectUser);
   return (
+    {
+      !user ? (
+        <Login/>
+      ) :
+      
+    }
+    < BrowserRouter>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <Header/>
+        <div className = "app__body">
+           <SideBar/>
+
+           <Switch>
+             <Route path = "/mail" component ={Mail}/>
+             <Route path = "/" component ={EmailList}/>
+          </Switch>
+        </div>
+          {sendMessageIsOpen && <SendMail/>}
     </div>
+    </ BrowserRouter>
   );
 }
 
